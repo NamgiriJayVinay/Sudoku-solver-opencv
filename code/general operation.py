@@ -13,10 +13,7 @@ def largest_square_contour(cnts_fn):
     return Sudoku_cnts_fun
 
 
-# Function to order a list of coordinates that will be ordered
-# such that the first entry in the list is the top-left,
-# the second entry is the top-right, the third is the
-# bottom-right, and the fourth is the bottom-left
+# Function to order a list of coordinates
 def get_ordered_points(pts):
     rect = np.zeros((4, 2), dtype="float32")
 
@@ -36,12 +33,12 @@ def get_four_point_transform(image, pts):
     rect = get_ordered_points(pts)
     (tl, tr, br, bl) = rect
 
-    # compute the width of the new image
+
     widthA = np.sqrt(((br[0] - bl[0]) ** 2) + ((br[1] - bl[1]) ** 2))
     widthB = np.sqrt(((tr[0] - tl[0]) ** 2) + ((tr[1] - tl[1]) ** 2))
     maxWidth = max(int(widthA), int(widthB))
 
-    # compute the height of the new image
+
     heightA = np.sqrt(((tr[0] - br[0]) ** 2) + ((tr[1] - br[1]) ** 2))
     heightB = np.sqrt(((tl[0] - bl[0]) ** 2) + ((tl[1] - bl[1]) ** 2))
     maxHeight = max(int(heightA), int(heightB))

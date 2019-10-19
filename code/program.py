@@ -4,10 +4,7 @@ from general_operations import *
 
 
 
-# Searches the grid to find an entry that is still unassigned. If
-# found, the reference parameters row, col will be set the location
-# that is unassigned, and true is returned. If no unassigned entries
-# remain, false is returned.
+# Searches the grid to find an entry that is still unassigned.
 def find_empty_location(arr, l):
     for row in range(9):
         for col in range(9):
@@ -19,25 +16,18 @@ def find_empty_location(arr, l):
 
 
 # Returns a boolean which indicates whether any assigned entry
-# in the specified row matches the given number.
 def used_in_row(arr, row, num):
     for i in range(9):
         if (arr[row][i] == num):
             return True
     return False
 
-
-# Returns a boolean which indicates whether any assigned entry
-# in the specified column matches the given number.
 def used_in_col(arr, col, num):
     for i in range(9):
         if (arr[i][col] == num):
             return True
     return False
 
-
-# Returns a boolean which indicates whether any assigned entry
-# within the specified 3x3 box matches the given number
 def used_in_box(arr, row, col, num):
     for i in range(3):
         for j in range(3):
@@ -57,25 +47,19 @@ def solve_sudoku(arr):
     # 'l' is a list variable that keeps the record of row and col in find_empty_location Function
     l = [0, 0]
 
-    # If there is no unassigned location, we are done
+    # If there is no unassigned location, Constraint is overlapped
     if (not find_empty_location(arr, l)):
         return True
-
-    # Assigning list values to row and col that we got from the above Function
     row = l[0]
     col = l[1]
 
-    # consider digits 1 to 9
+    # Taking digits 1 to 9
     for num in range(1, 10):
         if (check_location_is_safe(arr, row, col, num)):
-            # make tentative assignment
             arr[row][col] = num
-
-            # return, if sucess
             if (solve_sudoku(arr)):
                 return True
 
-            # failure, unmake & try again
             arr[row][col] = 0
 
     # this triggers backtracking
@@ -97,14 +81,11 @@ def cell_analyse(img_to_analyze):
     while y_ind + 9 < ty:
         x_ind = 0;
         while x_ind + 9 < tx:
-
-            # Remove s pixels from each direction to isolate the digit
             ry = y_ind + 5
             ryy = y_unit + y_ind - 5
             rx = x_ind + 5
             rxx = x_unit + x_ind - 5
 
-            # Store each cell
             roi = img_to_analyze[ry:ryy, rx:rxx]
             cube_array_fun.append(roi)
             cube_is_digit_fun.append(0)
@@ -114,8 +95,6 @@ def cell_analyse(img_to_analyze):
         y_ind += y_unit
     return cube_array_fun, cube_is_digit_fun
 
-# Check if cell contains a digit
-# If a digit is present extract it
 def get_digits_ocr(cube_array, cube_is_digit):
     samples = np.loadtxt('generalsamples.data', np.float32)
     responses = np.loadtxt('generalresponses.data', np.float32)
@@ -227,13 +206,8 @@ cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
 Sudoku_cnts = None
 
 Sudoku_cnts = largest_square_contour(cnts)
-
-# Do a Warp perspective on the sudoku image
 orig_image = get_four_point_transform(orig_image, Sudoku_cnts.reshape(4, 2))
 gray_image = get_four_point_transform(gray, Sudoku_cnts.reshape(4, 2))
-
-# cv2.imshow("image1", gray_image)
-# cv2.waitKey(0)
 
 # Resize the image
 orig_image = img_resize(orig_image, 450.0)
@@ -251,5 +225,5 @@ if not solve_sudoku(cells_val):
 solved_image = get_solved_image(orig_image.copy(), cells_val, cube_is_digit)
 
 cv2.imshow("image", solved_image)
-# cv2.imshow("image1", orig_image)
+cv2.imshow("image1", orig_image)#use this for comparision
 cv2.waitKey(0)
