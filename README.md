@@ -10,3 +10,4 @@ We created a neural network which got trained by different testing datasets of s
 The main reason for including the Neural network is to increase the "Speed and Accuracy" of Hard Sudoku Puzzles with "OCR Recognition"
 ![0_1DqTRU7WREONm9oa](https://user-images.githubusercontent.com/41121766/67155283-9f19fd00-f329-11e9-8709-7c5e3e3f77d4.png)
 ![tf_logo_social (1)](https://user-images.githubusercontent.com/41121766/67155297-bb1d9e80-f329-11e9-9f8e-6db92dc6a417.png)
+The approach we followed is Back Tracking and Only choice Strategy:
